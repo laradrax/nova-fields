@@ -75,14 +75,16 @@ class ResourceActionLinks extends Field
      *
      * @param  class-string<TResource>  $resource  The Nova resource class
      * @param  int|string|null  $key  The resource's primary key
+     * @param  string|null  $name  The display name for the field (optional)
      *
      * @throws InvalidArgumentException If the resource class is invalid
      */
     public function __construct(
         string $resource,
-        int|string|null $key
+        int|string|null $key,
+        ?string $name = null,
     ) {
-        parent::__construct('Actions');
+        parent::__construct($name ?? __('Actions'));
 
         $this->validateResourceClass($resource);
 
@@ -117,7 +119,9 @@ class ResourceActionLinks extends Field
      */
     public function addAll(): static
     {
-        return $this->addView()->addEdit();
+        return $this
+            ->addView(background: ActionStyle::DEFAULT)
+            ->addEdit(background: ActionStyle::INFO);
     }
 
     /**

@@ -5,10 +5,9 @@
                 v-for="(link, index) in visibleLinks"
                 :key="`${field.attribute}-link-${index}`"
                 :href="link.url"
-                :class="getLinkClasses(link)"
+                :class="getLinkClasses(link.background)"
                 :target="link.openInNewTab ? '_blank' : undefined"
                 :rel="link.openInNewTab ? 'noopener noreferrer' : undefined"
-                class="inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-[10px] font-medium transition-all duration-150 no-underline"
                 @click.stop
             >
                 <span v-html="link.icon" class="flex-shrink-0"></span>
@@ -16,33 +15,57 @@
             </a>
             <span
                 v-if="hasMoreLinks"
-                class="text-[10px] text-gray-400 dark:text-gray-500 px-1"
+                :class="getLinkClasses()"
             >
-        +{{ remainingCount }}
-      </span>
+                +{{ remainingCount }}
+            </span>
         </div>
         <span v-else class="text-gray-400 dark:text-gray-500 text-xs">
-      —
-    </span>
+          —
+        </span>
     </div>
 </template>
 
 <script>
+/**
+ * @typedef {Object} Link
+ * @property {string} type
+ * @property {string} url
+ * @property {string} label
+ * @property {string} [icon]
+ * @property {string} [background]
+ * @property {boolean} openInNewTab
+ */
+
+/**
+ * @typedef {Object} FieldData
+ * @property {string} attribute
+ * @property {Link[]} links
+ */
 export default {
     props: {
         resourceName: {
             type: String,
             required: true,
         },
+        /**
+         * @param {FieldData} field
+         */
         field: {
             type: Object,
             required: true,
+            validator: (field) => {
+                return (
+                    typeof field === 'object' &&
+                    typeof field.attribute === 'string' &&
+                    Array.isArray(field.links)
+                );
+            },
         },
     },
 
     computed: {
         maxVisibleLinks() {
-            // Show fewer links on index to save space
             return 2
         },
 
@@ -60,30 +83,31 @@ export default {
     },
 
     methods: {
-        getLinkClasses(link) {
+        getLinkClasses(background) {
+            const linkClass = typeof background === 'string'
+                ? background
+                : 'bg-gray-100 text-gray-600 ring-gray-500/10';
             return [
-                link.style || '',
-                'hover:scale-105',
-            ].filter(Boolean).join(' ')
+                'inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset',
+                linkClass,
+                'no-underline',
+            ]
+                .filter(Boolean)
+                .join(' ')
         },
     },
 }
 </script>
-
 <style scoped>
-:deep(svg) {
-    width: 0.625rem;
-    height: 0.625rem;
+a:not(:disabled):hover {
+    opacity: 0.8;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* Smaller badges for index view */
-a {
-    font-size: 0.625rem;
-    line-height: 1rem;
-}
-
-/* Prevent row click when clicking badges */
-a:hover {
-    z-index: 10;
+@media (prefers-color-scheme: dark) {
+    a:not(:disabled):hover {
+        opacity: 0.8;
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+    }
 }
 </style>

@@ -14,19 +14,15 @@
             </a>
         </div>
         <span v-else class="text-gray-400 dark:text-gray-500 text-xs italic">
-            —
+            {{ __('No actions available') }}
         </span>
     </div>
 </template>
 
 <script>
 /**
- * @typedef {'view' | 'edit' | 'delete' | 'restore' | 'replicate' | 'custom'} LinkType
- */
-
-/**
  * @typedef {Object} Link
- * @property {LinkType} type
+ * @property {string} type
  * @property {string} url
  * @property {string} label
  * @property {string} [icon]
@@ -66,7 +62,6 @@ export default {
          * @returns {string}
          */
         getLinkClasses(link) {
-            // Converte background para string, caso seja um objeto/enum
             const background = typeof link.background === 'string' ? link.background : '';
             return [
                 'inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-xs font-semibold',

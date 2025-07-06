@@ -14,12 +14,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 /**
- * @typedef {'view' | 'edit' | 'delete' | 'restore' | 'replicate' | 'custom'} LinkType
- */
-
-/**
  * @typedef {Object} Link
- * @property {LinkType} type
+ * @property {string} type
  * @property {string} url
  * @property {string} label
  * @property {string} [icon]
@@ -55,7 +51,6 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
      * @returns {string}
      */
     getLinkClasses: function getLinkClasses(link) {
-      // Converte background para string, caso seja um objeto/enum
       var background = typeof link.background === 'string' ? link.background : '';
       return ['inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-xs font-semibold', background, 'no-underline'].filter(Boolean).join(' ');
     }
@@ -375,20 +370,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+/**
+ * @typedef {Object} Link
+ * @property {string} type
+ * @property {string} url
+ * @property {string} label
+ * @property {string} [icon]
+ * @property {string} [background]
+ * @property {boolean} openInNewTab
+ */
+
+/**
+ * @typedef {Object} FieldData
+ * @property {string} attribute
+ * @property {Link[]} links
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     resourceName: {
       type: String,
       required: true
     },
+    /**
+     * @param {FieldData} field
+     */
     field: {
       type: Object,
-      required: true
+      required: true,
+      validator: function validator(field) {
+        return _typeof(field) === 'object' && typeof field.attribute === 'string' && Array.isArray(field.links);
+      }
     }
   },
   computed: {
     maxVisibleLinks: function maxVisibleLinks() {
-      // Show fewer links on index to save space
       return 2;
     },
     visibleLinks: function visibleLinks() {
@@ -404,8 +420,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    getLinkClasses: function getLinkClasses(link) {
-      return [link.style || '', 'hover:scale-105'].filter(Boolean).join(' ');
+    getLinkClasses: function getLinkClasses(background) {
+      var linkClass = typeof background === 'string' ? background : 'bg-gray-100 text-gray-600 ring-gray-500/10';
+      return ['inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset', linkClass, 'no-underline'].filter(Boolean).join(' ');
     }
   }
 });
@@ -561,7 +578,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       innerHTML: link.icon,
       "class": "flex-shrink-0"
     }, null, 8 /* PROPS */, _hoisted_4)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(link.label), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_3);
-  }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_5, " — "))]);
+  }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('No actions available')), 1 /* TEXT */))]);
 }
 
 /***/ }),
@@ -720,10 +737,6 @@ var _hoisted_5 = {
   "class": "max-md:hidden"
 };
 var _hoisted_6 = {
-  key: 0,
-  "class": "text-[10px] text-gray-400 dark:text-gray-500 px-1"
-};
-var _hoisted_7 = {
   key: 1,
   "class": "text-gray-400 dark:text-gray-500 text-xs"
 };
@@ -732,7 +745,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
       key: "".concat($props.field.attribute, "-link-").concat(index),
       href: link.url,
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.getLinkClasses(link), "inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-[10px] font-medium transition-all duration-150 no-underline"]),
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.getLinkClasses(link.background)),
       target: link.openInNewTab ? '_blank' : undefined,
       rel: link.openInNewTab ? 'noopener noreferrer' : undefined,
       onClick: _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {}, ["stop"]))
@@ -740,7 +753,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       innerHTML: link.icon,
       "class": "flex-shrink-0"
     }, null, 8 /* PROPS */, _hoisted_4), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(link.label), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_3);
-  }), 128 /* KEYED_FRAGMENT */)), $options.hasMoreLinks ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_6, " +" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.remainingCount), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_7, " — "))]);
+  }), 128 /* KEYED_FRAGMENT */)), $options.hasMoreLinks ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+    key: 0,
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.getLinkClasses())
+  }, " +" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.remainingCount), 3 /* TEXT, CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_6, " — "))]);
 }
 
 /***/ }),
@@ -807,7 +823,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n[data-v-1d52d640] svg {\n    width: 0.625rem;\n    height: 0.625rem;\n}\n\n/* Smaller badges for index view */\na[data-v-1d52d640] {\n    font-size: 0.625rem;\n    line-height: 1rem;\n}\n\n/* Prevent row click when clicking badges */\na[data-v-1d52d640]:hover {\n    z-index: 10;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\na[data-v-1d52d640]:not(:disabled):hover {\n    opacity: 0.8;\n    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);\n}\n@media (prefers-color-scheme: dark) {\na[data-v-1d52d640]:not(:disabled):hover {\n        opacity: 0.8;\n        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

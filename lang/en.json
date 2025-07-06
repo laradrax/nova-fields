@@ -1,3 +1,10 @@
 {
-    "The :attribute field is incomplete": "The :attribute field is incomplete"
+    "No actions available": "No actions available",
+    "The :attribute field is incomplete": "The :attribute field is incomplete",
+    "Cancel": "Cancel",
+    "Create": "Create",
+    "Delete": "Delete",
+    "Edit": "Edit",
+    "Save": "Save",
+    "View": "View"
 }

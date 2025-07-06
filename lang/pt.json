@@ -1,3 +1,10 @@
 {
-    "The :attribute field is incomplete": "O campo :attribute está incompleto"
+    "No actions available": "Nenhuma ação disponível",
+    "The :attribute field is incomplete": "O campo :attribute está incompleto",
+    "Cancel": "Cancelar",
+    "Create": "Criar",
+    "Delete": "Excluir",
+    "Edit": "Editar",
+    "Save": "Salvar",
+    "View": "Visualizar"
 }
