@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "lib": ["es2020", "dom"],
+    "allowJs": true,
+    "checkJs": false,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "strict": false,
+    "noImplicitAny": false,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["resources/js/*"]
+    },
+    "typeRoots": [
+      "node_modules/@types",
+      "vendor/laravel/nova-devtool/types/@types",
+      "node_modules/laravel-mix/types",
+      "types"
+    ],
+    "types": [
+      "node",
+      "webpack-env",
+      "laravel-mix"
+    ]
+  },
+  "include": [
+    "resources/js/**/*",
+    "types/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "vendor",
+    "dist"
+  ]
+}

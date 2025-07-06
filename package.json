@@ -1,0 +1,19 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "mix",
+        "watch": "mix watch",
+        "watch-poll": "mix watch -- --watch-options-poll=1000",
+        "prod": "npm run production",
+        "production": "mix --production"
+    },
+    "dependencies": {
+        "maska": "^3.2.0"
+    },
+    "devDependencies": {
+        "@types/node": "^24.0.10",
+        "@types/webpack-env": "^1.18.8",
+        "laravel-nova-devtool": "file:vendor/laravel/nova-devtool"
+    }
+}
