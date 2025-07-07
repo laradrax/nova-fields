@@ -88,13 +88,6 @@ export default {
 <style scoped>
 a:not(:disabled):hover {
     opacity: 0.8;
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
-}
-
-@media (prefers-color-scheme: dark) {
-    a:not(:disabled):hover {
-        opacity: 0.8;
-        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
-    }
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 </style>
