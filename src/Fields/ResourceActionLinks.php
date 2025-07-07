@@ -120,17 +120,8 @@ class ResourceActionLinks extends Field
     public function addAll(): static
     {
         return $this
-            ->addView(
-                icon: ActionIcon::GLOBE,
-                background: ActionStyle::DEFAULT
-            )
-            ->addEdit(
-                icon: ActionIcon::CODE,
-                background: ActionStyle::WARNING
-            )
-            ->addView(background: ActionStyle::DANGER)
-            ->addEdit(background: ActionStyle::INFO)
-            ->addView(background: ActionStyle::SUCCESS);
+            ->addView()
+            ->addEdit();
     }
 
     /**
