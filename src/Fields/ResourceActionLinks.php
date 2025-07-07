@@ -120,8 +120,17 @@ class ResourceActionLinks extends Field
     public function addAll(): static
     {
         return $this
-            ->addView(background: ActionStyle::DEFAULT)
-            ->addEdit(background: ActionStyle::INFO);
+            ->addView(
+                icon: ActionIcon::GLOBE,
+                background: ActionStyle::DEFAULT
+            )
+            ->addEdit(
+                icon: ActionIcon::CODE,
+                background: ActionStyle::WARNING
+            )
+            ->addView(background: ActionStyle::DANGER)
+            ->addEdit(background: ActionStyle::INFO)
+            ->addView(background: ActionStyle::SUCCESS);
     }
 
     /**
@@ -201,7 +210,7 @@ class ResourceActionLinks extends Field
             type: ActionType::CUSTOM,
             label: $label,
             url: $url,
-            icon: $icon ?? ActionIcon::DEFAULT,
+            icon: $icon ?? ActionIcon::LINK,
             background: $background ?? ActionStyle::DEFAULT,
             openInNewTab: $openInNewTab,
         );
@@ -224,7 +233,7 @@ class ResourceActionLinks extends Field
             'type' => $type,
             'url' => $url,
             'label' => $label,
-            'icon' => $icon ?? ActionIcon::DEFAULT,
+            'icon' => $icon ?? ActionIcon::LINK,
             'background' => $background ?? ActionStyle::DEFAULT,
             'openInNewTab' => $openInNewTab,
         ];

@@ -1,11 +1,11 @@
 <template>
-    <div class="flex items-center justify-center py-2">
+    <div class="flex items-center justify-center py-3">
         <div v-if="Array.isArray(field.links) && field.links.length > 0" class="inline-flex gap-2 flex-wrap">
             <a
                 v-for="(link, index) in field.links"
                 :key="`${field.attribute}-link-${index}`"
                 :href="link.url"
-                :class="getLinkClasses(link)"
+                :class="getLinkClasses(link.background)"
                 :target="link.openInNewTab ? '_blank' : undefined"
                 :rel="link.openInNewTab ? 'noopener noreferrer' : undefined"
             >
@@ -58,19 +58,34 @@ export default {
     },
     methods: {
         /**
-         * @param {Link} link
+         * @param {string} background
          * @returns {string}
          */
-        getLinkClasses(link) {
-            const background = typeof link.background === 'string' ? link.background : '';
+        getLinkClasses(background) {
+            const linkClass = typeof background === 'string'
+                ? background
+                : 'bg-gray-100 text-gray-600 ring-gray-500/10';
             return [
-                'inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-xs font-semibold',
-                background,
+                'inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset',
+                linkClass,
                 'no-underline',
             ]
                 .filter(Boolean)
-                .join(' ');
+                .join(' ')
         },
     },
 };
 </script>
+<style scoped>
+a:not(:disabled):hover {
+    opacity: 0.8;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+    a:not(:disabled):hover {
+        opacity: 0.8;
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+    }
+}
+</style>

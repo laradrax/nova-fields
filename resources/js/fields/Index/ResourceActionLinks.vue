@@ -13,12 +13,14 @@
                 <span v-html="link.icon" class="flex-shrink-0"></span>
                 <span class="max-md:hidden">{{ link.label }}</span>
             </a>
-            <span
+            <a
+                href="#"
                 v-if="hasMoreLinks"
                 :class="getLinkClasses()"
+                @click.prevent
             >
                 +{{ remainingCount }}
-            </span>
+            </a>
         </div>
         <span v-else class="text-gray-400 dark:text-gray-500 text-xs">
           —
@@ -83,6 +85,10 @@ export default {
     },
 
     methods: {
+        /**
+         * @param {string} background
+         * @returns {string}
+         */
         getLinkClasses(background) {
             const linkClass = typeof background === 'string'
                 ? background
