@@ -143,13 +143,11 @@ ResourceActionLinks::make(User::class, $this->user_id, 'User Actions')
 #### Available Methods
 
 ```php
-// Add all default actions
+// Add all default actions (view + edit)
 ->addAll()
 
-// Add view action
+// Standard Nova resource actions
 ->addView(?ActionStyle $style, ?ActionIcon $icon, bool $openInNewTab = false)
-
-// Add edit action
 ->addEdit(?ActionStyle $style, ?ActionIcon $icon, bool $openInNewTab = false)
 ```
 
@@ -271,6 +269,27 @@ public function fields(Request $request)
         ResourceActionLinks::make(User::class, $this->user_id, 'User Actions')
             ->addAll()
             ->onlyOnDetail(),
+    ];
+}
+```
+
+### Example 4: Custom Styled Actions
+
+```php
+use Laradrax\Nova\Fields\ResourceActionLinks;
+use App\Nova\Product;
+
+public function fields(Request $request)
+{
+    return [
+        ID::make()->sortable(),
+        
+        Text::make('Name'),
+        
+        ResourceActionLinks::make(Product::class, $this->id, 'Product Actions')
+            ->addView(ActionStyle::INFO, ActionIcon::VIEW, true)
+            ->addEdit(ActionStyle::WARNING, ActionIcon::EDIT)
+            ->onlyOnIndex(),
     ];
 }
 ```

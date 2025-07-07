@@ -1,6 +1,6 @@
 <template>
     <div class="flex items-center justify-start">
-        <div v-if="field.links && field.links.length > 0" class="inline-flex gap-1 flex-wrap">
+        <div v-if="field.links && field.links.length > 0" class="inline-flex justify-center gap-1 flex-wrap">
             <a
                 v-for="(link, index) in visibleLinks"
                 :key="`${field.attribute}-link-${index}`"

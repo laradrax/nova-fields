@@ -1,6 +1,6 @@
 <template>
     <div class="flex items-center justify-center py-3">
-        <div v-if="Array.isArray(field.links) && field.links.length > 0" class="inline-flex gap-2 flex-wrap">
+        <div v-if="Array.isArray(field.links) && field.links.length > 0" class="inline-flex justify-center gap-2 flex-wrap">
             <a
                 v-for="(link, index) in field.links"
                 :key="`${field.attribute}-link-${index}`"
