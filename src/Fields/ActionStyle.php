@@ -4,6 +4,9 @@ namespace Laradrax\Nova\Fields;
 
 /**
  * Enum for action styles (Tailwind CSS classes - Subset of Laravel Nova).
+ *
+ * Provides predefined styling options for action links using Tailwind CSS classes.
+ * These styles ensure consistency with Laravel Nova's design system.
  */
 enum ActionStyle: string
 {

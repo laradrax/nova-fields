@@ -1,161 +1,290 @@
-# Text Mask for Laravel Nova
+# Nova Fields
 
-A Laravel Nova field package that provides input masking functionality using the powerful [Maska](https://github.com/beholdr/maska) library.
+A collection of custom fields for Laravel Nova that provides advanced functionality for your resources.
 
 ## Installation
 
-Install the package via Composer:
+You can install the package via Composer:
 
 ```bash
-composer require laradrax/text-mask
+composer require laradrax/nova-fields
 ```
 
-## Usage
+## Available Fields
 
-Use the `TextMask` field in your Nova resources:
+### 1. TextMask
+
+Text field with masking functionality using the Maska library.
+
+#### Features
+
+- ✅ Custom mask patterns support
+- ✅ Customizable tokens
+- ✅ Eager mode (shows static characters before typing)
+- ✅ Reversed mode (useful for currency and numbers)
+- ✅ Raw value (without mask) on submission
+- ✅ Integrated filtering
+
+#### Basic Usage
 
 ```php
-use Laradrax\Fields\Fields\TextMask;
+use Laradrax\Nova\Fields\TextMask;
 
-public function fields(NovaRequest $request)
+// Simple CPF mask
+TextMask::make('CPF')
+    ->mask('###.###.###-##'),
+
+// Phone mask
+TextMask::make('Phone')
+    ->mask('(##) #####-####'),
+
+// ZIP code mask
+TextMask::make('ZIP')
+    ->mask('#####-###'),
+```
+
+#### Available Methods
+
+```php
+// Set mask pattern
+->mask('###.###.###-##')
+
+// Custom tokens
+->tokens([
+    'X' => ['pattern' => '[0-9]', 'optional' => false],
+    'Y' => ['pattern' => '[A-Z]', 'optional' => true]
+])
+
+// Eager mode (shows static characters)
+->eager(true)
+
+// Reversed mode (for numbers/currency)
+->reversed(true)
+
+// Raw value (without mask)
+->raw(true)
+
+// Require complete filling
+->fillRequired(true)
+```
+
+#### Default Tokens
+
+- `#` - Digit (0-9)
+- `@` - Letter (a-z, A-Z)
+- `*` - Alphanumeric
+
+### 2. ActionLinks
+
+Field that displays customizable action links with icons and styles.
+
+#### Features
+
+- ✅ Integrated SVG icons
+- ✅ Predefined styles (colors)
+- ✅ Open in new tab
+- ✅ Customizable URLs
+
+#### Basic Usage
+
+```php
+use Laradrax\Nova\Fields\ActionLinks;
+use Laradrax\Nova\Fields\ActionIcon;
+use Laradrax\Nova\Fields\ActionStyle;
+
+ActionLinks::make('Actions')
+    ->addLink(
+        label: 'View Details',
+        url: '/custom-view/' . $this->id,
+        icon: ActionIcon::VIEW,
+        style: ActionStyle::INFO,
+        openInNewTab: true
+    )
+    ->addLink(
+        label: 'Download PDF',
+        url: '/download/' . $this->id,
+        icon: ActionIcon::DOWNLOAD,
+        style: ActionStyle::SUCCESS
+    ),
+```
+
+### 3. ResourceActionLinks
+
+Specialized field for Nova resource action links (view, edit, etc.).
+
+#### Features
+
+- ✅ Automatic integration with Nova resources
+- ✅ Automatically generated URLs
+- ✅ Resource class validation
+- ✅ Convenient methods (addView, addEdit, addAll)
+
+#### Basic Usage
+
+```php
+use Laradrax\Nova\Fields\ResourceActionLinks;
+use App\Nova\User;
+
+// Add all actions (view + edit)
+ResourceActionLinks::make(User::class, $this->user_id)
+    ->addAll(),
+
+// Add specific actions
+ResourceActionLinks::make(User::class, $this->user_id)
+    ->addView(ActionStyle::INFO, ActionIcon::VIEW, true)
+    ->addEdit(ActionStyle::WARNING, ActionIcon::EDIT),
+
+// Customize field name
+ResourceActionLinks::make(User::class, $this->user_id, 'User Actions')
+    ->addView()
+    ->addEdit(),
+```
+
+#### Available Methods
+
+```php
+// Add all default actions
+->addAll()
+
+// Add view action
+->addView(?ActionStyle $style, ?ActionIcon $icon, bool $openInNewTab = false)
+
+// Add edit action
+->addEdit(?ActionStyle $style, ?ActionIcon $icon, bool $openInNewTab = false)
+```
+
+## Available Icons
+
+The `ActionIcon` enum provides a wide range of SVG icons:
+
+```php
+ActionIcon::VIEW       // View
+ActionIcon::EDIT       // Edit
+ActionIcon::DELETE     // Delete
+ActionIcon::USER       // User
+ActionIcon::SETTINGS   // Settings
+ActionIcon::DOWNLOAD   // Download
+ActionIcon::CHART      // Chart
+ActionIcon::SHOPPING_CART // Shopping Cart
+ActionIcon::MAP_PIN    // Location
+ActionIcon::SEARCH     // Search
+ActionIcon::LINK       // Link
+ActionIcon::BEAKER     // Laboratory
+ActionIcon::CALENDAR   // Calendar
+ActionIcon::CALL       // Call
+ActionIcon::CODE       // Code
+ActionIcon::DATABASE   // Database
+ActionIcon::GLOBE      // Globe
+ActionIcon::AI         // Artificial Intelligence
+```
+
+## Available Styles
+
+The `ActionStyle` enum provides Tailwind CSS-based styles:
+
+```php
+ActionStyle::DEFAULT   // Gray
+ActionStyle::SUCCESS   // Green
+ActionStyle::WARNING   // Yellow
+ActionStyle::DANGER    // Red
+ActionStyle::INFO      // Blue
+```
+
+## Practical Examples
+
+### Example 1: Registration Form
+
+```php
+use Laradrax\Nova\Fields\TextMask;
+
+public function fields(Request $request)
 {
     return [
-        TextMask::make('Phone')
-            ->mask('(###) ###-####'),
-            
+        ID::make()->sortable(),
+        
+        Text::make('Name'),
+        
         TextMask::make('CPF')
-            ->mask('###.###.###-##'),
+            ->mask('###.###.###-##')
+            ->raw(true)
+            ->fillRequired(true),
             
-        TextMask::make('Date')
-            ->mask('##/##/####'),
+        TextMask::make('Phone')
+            ->mask('(##) #####-####')
+            ->raw(true),
+            
+        TextMask::make('ZIP Code')
+            ->mask('#####-###')
+            ->raw(true),
     ];
 }
 ```
 
-## Configuration Options
-
-### Basic Mask
-
-Set a simple mask pattern:
+### Example 2: List with Actions
 
 ```php
-TextMask::make('Phone')
-    ->mask('(###) ###-####')
+use Laradrax\Nova\Fields\ActionLinks;
+use Laradrax\Nova\Fields\ActionIcon;
+use Laradrax\Nova\Fields\ActionStyle;
+
+public function fields(Request $request)
+{
+    return [
+        ID::make()->sortable(),
+        
+        Text::make('Name'),
+        
+        ActionLinks::make('Actions')
+            ->addLink(
+                label: 'View Profile',
+                url: '/profile/' . $this->id,
+                icon: ActionIcon::USER,
+                style: ActionStyle::INFO
+            )
+            ->addLink(
+                label: 'Report',
+                url: '/reports/' . $this->id,
+                icon: ActionIcon::CHART,
+                style: ActionStyle::SUCCESS,
+                openInNewTab: true
+            )
+            ->onlyOnIndex(),
+    ];
+}
 ```
 
-### Custom Tokens
-
-Define custom tokens for complex patterns:
+### Example 3: Relationships with Actions
 
 ```php
-TextMask::make('Product Code')
-    ->mask('LLL-###-LLL')
-    ->tokens([
-        'L' => ['pattern' => '[A-Z]', 'optional' => false],
-    ])
+use Laradrax\Nova\Fields\ResourceActionLinks;
+use App\Nova\User;
+
+public function fields(Request $request)
+{
+    return [
+        ID::make()->sortable(),
+        
+        Text::make('Title'),
+        
+        BelongsTo::make('User', 'user', User::class),
+        
+        ResourceActionLinks::make(User::class, $this->user_id, 'User Actions')
+            ->addAll()
+            ->onlyOnDetail(),
+    ];
+}
 ```
 
-### Eager Mode
+## Contributing
 
-Show static characters before typing:
+Contributions are welcome! Please open an issue or submit a pull request.
 
-```php
-TextMask::make('Phone')
-    ->mask('(###) ###-####')
-    ->eager() // Shows "(" immediately
-```
+## License
 
-### Reversed Mode
+This package is open-source software licensed under the [MIT License](LICENSE).
 
-Useful for numeric inputs that grow backwards:
+## Credits
 
-```php
-TextMask::make('Price')
-    ->mask('$ #,##0.00')
-    ->reversed()
-```
-
-### Raw Values
-
-Send unmasked values to the server:
-
-```php
-TextMask::make('Phone')
-    ->mask('(###) ###-####')
-    ->raw() // Sends "1234567890" instead of "(123) 456-7890"
-```
-
-### Fill Required
-
-Validate that the mask is completely filled:
-
-```php
-TextMask::make('Phone')
-    ->mask('(###) ###-####')
-    ->fillRequired() // Throws validation error if incomplete
-```
-
-## Mask Patterns
-
-The package uses [Maska](https://github.com/beholdr/maska) default tokens:
-
-- `#` - Any digit (0-9)
-- `@` - Any letter (a-z, A-Z)
-- `*` - Any alphanumeric character (letters & digits)
-
-For additional patterns, you can define custom tokens using the `tokens()` method.
-
-### Examples
-
-```php
-// Phone numbers
-TextMask::make('Phone')->mask('(###) ###-####')
-
-// Brazilian CPF
-TextMask::make('CPF')->mask('###.###.###-##')
-
-// Credit card
-TextMask::make('Credit Card')->mask('#### #### #### ####')
-
-// Date
-TextMask::make('Date')->mask('##/##/####')
-
-// Time
-TextMask::make('Time')->mask('##:##')
-
-// Postal code
-TextMask::make('ZIP')->mask('#####-####')
-
-// Name with letters only
-TextMask::make('Name')->mask('@@@ @@@@@@@@@')
-
-// Mixed alphanumeric code
-TextMask::make('Code')->mask('***-***-***')
-```
-
-## Advanced Usage
-
-### Dynamic Masks
-
-You can use JSON arrays for dynamic masks:
-
-```php
-TextMask::make('Phone')
-    ->mask('["(###) ###-####", "###-###-####"]')
-```
-
-### Complex Tokens
-
-```php
-TextMask::make('License Plate')
-    ->mask('LLL-####')
-    ->tokens([
-        'L' => ['pattern' => '[A-Z]', 'optional' => false]
-    ])
-```
-
-## Requirements
-
-- PHP ^8.4
-- Laravel Nova ^5.0
-- Illuminate Support ^12.0
+- **Author**: Laradrax
+- **Icons**: [Heroicons](https://heroicons.com/)
+- **Mask Library**: [Maska](https://github.com/beholdr/maska)

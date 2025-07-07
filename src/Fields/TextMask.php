@@ -16,10 +16,6 @@ use Laravel\Nova\Http\Requests\NovaRequest;
  *
  * Provides input masking functionality using the Maska library.
  * Supports custom masks, tokens, eager mode, reversed mode, and raw value extraction.
- *
- * @author Laradrax
- *
- * @since 1.0.0
  */
 class TextMask extends Field implements FilterableField
 {

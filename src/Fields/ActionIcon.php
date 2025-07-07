@@ -5,6 +5,10 @@ namespace Laradrax\Nova\Fields;
 /**
  * Enum for action icons with inline SVG support.
  *
+ * Provides a comprehensive collection of SVG icons from Heroicons (micro variant).
+ * Each icon includes proper SVG markup with consistent styling classes for use
+ * in action links and buttons.
+ *
  * @see https://heroicons.com/micro
  */
 enum ActionIcon: string

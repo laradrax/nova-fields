@@ -8,6 +8,10 @@ use Laravel\Nova\Fields\Field;
 /**
  * Badge-style action links for Nova Resources with enhanced functionality.
  *
+ * This field creates customizable action badges with icons and styling options.
+ * Perfect for adding quick action buttons to your Nova resources with consistent
+ * design and behavior.
+ *
  * @method static static make(string|null $name)
  *
  * @phpstan-type Link array{
@@ -47,6 +51,13 @@ class ActionLinks extends Field
 
     /**
      * Add a link to the collection.
+     *
+     * @param  string  $label  The display text for the link
+     * @param  string  $url  The URL the link should navigate to
+     * @param  ActionIcon|null  $icon  The icon to display (defaults to LINK icon)
+     * @param  ActionStyle|null  $style  The styling for the link (defaults to DEFAULT style)
+     * @param  bool  $openInNewTab  Whether to open the link in a new tab
+     * @return static The field instance for method chaining
      */
     public function addLink(
         string $label,
@@ -68,6 +79,8 @@ class ActionLinks extends Field
 
     /**
      * Prepare the field for JSON serialization.
+     *
+     * @return array<string, mixed> The serialized field data including all links
      */
     public function jsonSerialize(): array
     {

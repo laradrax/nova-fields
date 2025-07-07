@@ -4,6 +4,7 @@ namespace Laradrax\Nova\Fields;
 
 use InvalidArgumentException;
 use Laravel\Nova\Fields\Field;
+use Laravel\Nova\Nova;
 use Laravel\Nova\Resource as NovaResource;
 
 /**
@@ -67,8 +68,9 @@ class ResourceActionLinks extends ActionLinks
     /**
      * Validate that the provided class is a valid Nova resource.
      *
+     * @param  string  $resourceClass  The class name to validate
      *
-     * @throws InvalidArgumentException
+     * @throws InvalidArgumentException If the class doesn't exist or isn't a Nova resource
      */
     private function validateResourceClass(string $resourceClass): void
     {
@@ -86,7 +88,7 @@ class ResourceActionLinks extends ActionLinks
     /**
      * Add all standard actions (view and edit).
      *
-     * @return $this
+     * @return static The field instance for method chaining
      */
     public function addAll(): static
     {
@@ -96,23 +98,24 @@ class ResourceActionLinks extends ActionLinks
     /**
      * Add a "View" action link.
      *
+     * @param  ActionStyle|null  $style  The styling for the link
      * @param  ActionIcon|null  $icon  The icon to use
      * @param  bool  $openInNewTab  Whether to open the link in a new tab
-     * @return $this
+     * @return static The field instance for method chaining
      */
     public function addView(
         ?ActionStyle $style = null,
         ?ActionIcon $icon = null,
         bool $openInNewTab = false,
     ): static {
-        $url = "{$this->resourceBasePath}/{$this->resourceKey}";
+        $url = Nova::url("{$this->resourceBasePath}/{$this->resourceKey}");
         $label = __('View').' '.$this->resourceSingular;
 
         $this->addLink(
             label: $label,
             url: $url,
             icon: $icon ?? ActionIcon::VIEW,
-            style: $background ?? ActionStyle::DEFAULT,
+            style: $style ?? ActionStyle::DEFAULT,
             openInNewTab: $openInNewTab,
         );
 
@@ -122,16 +125,17 @@ class ResourceActionLinks extends ActionLinks
     /**
      * Add an "Edit" action link.
      *
+     * @param  ActionStyle|null  $style  The styling for the link
      * @param  ActionIcon|null  $icon  The icon to use
      * @param  bool  $openInNewTab  Whether to open the link in a new tab
-     * @return $this
+     * @return static The field instance for method chaining
      */
     public function addEdit(
         ?ActionStyle $style = null,
         ?ActionIcon $icon = null,
         bool $openInNewTab = false,
     ): static {
-        $url = "{$this->resourceBasePath}/{$this->resourceKey}/edit";
+        $url = Nova::url("{$this->resourceBasePath}/{$this->resourceKey}/edit");
         $label = __('Edit').' '.$this->resourceSingular;
 
         $this->addLink(
