@@ -60,6 +60,17 @@ enum ActionIcon: string
             <path d="M4.75 3.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V9A.75.75 0 0 1 14 9v2.25A2.75 2.75 0 0 1 11.25 14h-6.5A2.75 2.75 0 0 1 2 11.25v-6.5A2.75 2.75 0 0 1 4.75 2H7a.75.75 0 0 1 0 1.5H4.75Z" />
         </svg>
         SVG;
+    // icon: plus
+    case CREATE = <<<'SVG'
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-3.5 h-3.5 mr-1 fill-current"
+            viewBox="0 0 16 16"
+            aria-hidden="true"
+        >
+            <path d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z" />
+        </svg>
+        SVG;
     // icon: trash
     case DELETE = <<<'SVG'
         <svg
@@ -95,6 +106,32 @@ enum ActionIcon: string
             aria-hidden="true"
         >
             <path d="M6.5 2.25a.75.75 0 0 0-1.5 0v3a.75.75 0 0 0 1.5 0V4.5h6.75a.75.75 0 0 0 0-1.5H6.5v-.75ZM11 6.5a.75.75 0 0 0-1.5 0v3a.75.75 0 0 0 1.5 0v-.75h2.25a.75.75 0 0 0 0-1.5H11V6.5ZM5.75 10a.75.75 0 0 1 .75.75v.75h6.75a.75.75 0 0 1 0 1.5H6.5v.75a.75.75 0 0 1-1.5 0v-3a.75.75 0 0 1 .75-.75ZM2.75 7.25H8.5v1.5H2.75a.75.75 0 0 1 0-1.5ZM4 3H2.75a.75.75 0 0 0 0 1.5H4V3ZM2.75 11.5H4V13H2.75a.75.75 0 0 1 0-1.5Z" />
+        </svg>
+        SVG;
+    // icon: arrow-path
+    case RELOAD = <<<'SVG'
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-3.5 h-3.5 mr-1 fill-current"
+            viewBox="0 0 16 16"
+            aria-hidden="true"
+        >
+            <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M13.836 2.477a.75.75 0 0 1 .75.75v3.182a.75.75 0 0 1-.75.75h-3.182a.75.75 0 0 1 0-1.5h1.37l-.84-.841a4.5 4.5 0 0 0-7.08.932.75.75 0 0 1-1.3-.75 6 6 0 0 1 9.44-1.242l.842.84V3.227a.75.75 0 0 1 .75-.75Zm-.911 7.5A.75.75 0 0 1 13.199 11a6 6 0 0 1-9.44 1.241l-.84-.84v1.371a.75.75 0 0 1-1.5 0V9.591a.75.75 0 0 1 .75-.75H5.35a.75.75 0 0 1 0 1.5H3.98l.841.841a4.5 4.5 0 0 0 7.08-.932.75.75 0 0 1 1.025-.273Z"
+            />
+        </svg>
+        SVG;
+    // icon: funnel
+    case FILTER = <<<'SVG'
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-3.5 h-3.5 mr-1 fill-current"
+            viewBox="0 0 16 16"
+            aria-hidden="true"
+        >
+            <path d="M14 2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2.172a2 2 0 0 0 .586 1.414l2.828 2.828A2 2 0 0 1 6 9.828v4.363a.5.5 0 0 0 .724.447l2.17-1.085A2 2 0 0 0 10 11.763V9.829a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 0 14 4.172V2Z" />
         </svg>
         SVG;
     // icon: arrow-down-tray
