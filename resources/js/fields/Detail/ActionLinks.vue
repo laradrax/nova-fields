@@ -1,29 +1,20 @@
 <template>
-    <div class="flex items-center justify-start">
-        <div v-if="field.links && field.links.length > 0" class="inline-flex gap-1 flex-wrap">
+    <div class="flex items-center justify-center py-3">
+        <div v-if="Array.isArray(field.links) && field.links.length > 0" class="inline-flex gap-2 flex-wrap">
             <a
-                v-for="(link, index) in visibleLinks"
+                v-for="(link, index) in field.links"
                 :key="`${field.attribute}-link-${index}`"
                 :href="link.url"
-                :class="getLinkClasses(link.background)"
+                :class="getLinkClasses(link.style)"
                 :target="link.openInNewTab ? '_blank' : undefined"
                 :rel="link.openInNewTab ? 'noopener noreferrer' : undefined"
-                @click.stop
             >
-                <span v-html="link.icon" class="flex-shrink-0"></span>
-                <span class="max-md:hidden">{{ link.label }}</span>
-            </a>
-            <a
-                href="#"
-                v-if="hasMoreLinks"
-                :class="getLinkClasses()"
-                @click.prevent
-            >
-                +{{ remainingCount }}
+                <span v-if="link.icon" v-html="link.icon" class="flex-shrink-0"></span>
+                <span>{{ link.label }}</span>
             </a>
         </div>
-        <span v-else class="text-gray-400 dark:text-gray-500 text-xs">
-          —
+        <span v-else class="text-gray-400 dark:text-gray-500 text-xs italic">
+            {{ __('No actions available') }}
         </span>
     </div>
 </template>
@@ -35,7 +26,7 @@
  * @property {string} url
  * @property {string} label
  * @property {string} [icon]
- * @property {string} [background]
+ * @property {string} [style]
  * @property {boolean} openInNewTab
  */
 
@@ -65,33 +56,14 @@ export default {
             },
         },
     },
-
-    computed: {
-        maxVisibleLinks() {
-            return 2
-        },
-
-        visibleLinks() {
-            return this.field.links?.slice(0, this.maxVisibleLinks) || []
-        },
-
-        hasMoreLinks() {
-            return (this.field.links?.length || 0) > this.maxVisibleLinks
-        },
-
-        remainingCount() {
-            return this.field.links.length - this.maxVisibleLinks
-        },
-    },
-
     methods: {
         /**
-         * @param {string} background
+         * @param {string} style
          * @returns {string}
          */
-        getLinkClasses(background) {
-            const linkClass = typeof background === 'string'
-                ? background
+        getLinkClasses(style) {
+            const linkClass = typeof style === 'string'
+                ? style
                 : 'bg-gray-100 text-gray-600 ring-gray-500/10';
             return [
                 'inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset',
@@ -102,7 +74,7 @@ export default {
                 .join(' ')
         },
     },
-}
+};
 </script>
 <style scoped>
 a:not(:disabled):hover {

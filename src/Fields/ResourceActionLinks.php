@@ -14,42 +14,18 @@ use Laravel\Nova\Resource as NovaResource;
  *
  * @template TResource of NovaResource
  *
- * @method static static make(string $resource, int|string|null $key)
+ * @method static static make(string $resource, int|string|null $key, string|null $name = null)
  *
  * @phpstan-type Link array{
- *     type: ActionType,
  *     url: string,
  *     label: string,
  *     icon: ActionIcon,
  *     background: ActionStyle,
  *     openInNewTab: bool
  * }
- *
- * @example Basic usage:
- * ```php
- * ResourceActionLinksField::make('Actions', User::class, $this->user_id)
- *     ->addAll()
- *     ->onlyOnDetail();
- * ```
- * @example Advanced usage:
- * ```php
- * ResourceActionLinksField::make('User Actions', User::class, $this->user_id)
- *     ->addView(background: ActionStyle::SUCCESS)
- *     ->addEdit(background: ActionStyle::WARNING)
- *     ->addCustom('impersonate', 'Impersonate', '/custom-url', ActionIcon::USER)
- *     ->authorize(fn($request) => $request->user()->can('viewAny', User::class))
- *     ->openInNewTab();
- * ```
  */
-class ResourceActionLinks extends Field
+class ResourceActionLinks extends ActionLinks
 {
-    /**
-     * The field's component.
-     *
-     * @var string
-     */
-    public $component = 'resource-action-links';
-
     /**
      * @var int|string|null The resource's primary key
      */
@@ -64,11 +40,6 @@ class ResourceActionLinks extends Field
      * @var string The base URL path for the resource
      */
     private readonly string $resourceBasePath;
-
-    /**
-     * @var list<Link> Collection of action links
-     */
-    private array $links = [];
 
     /**
      * Create a new ResourceActionLinksField instance.
@@ -119,21 +90,18 @@ class ResourceActionLinks extends Field
      */
     public function addAll(): static
     {
-        return $this
-            ->addView()
-            ->addEdit();
+        return $this->addView()->addEdit();
     }
 
     /**
      * Add a "View" action link.
      *
-     * @param  ActionStyle|null  $background  The background style
      * @param  ActionIcon|null  $icon  The icon to use
      * @param  bool  $openInNewTab  Whether to open the link in a new tab
      * @return $this
      */
     public function addView(
-        ?ActionStyle $background = null,
+        ?ActionStyle $style = null,
         ?ActionIcon $icon = null,
         bool $openInNewTab = false,
     ): static {
@@ -141,11 +109,10 @@ class ResourceActionLinks extends Field
         $label = __('View').' '.$this->resourceSingular;
 
         $this->addLink(
-            type: ActionType::VIEW,
             label: $label,
             url: $url,
             icon: $icon ?? ActionIcon::VIEW,
-            background: $background ?? ActionStyle::DEFAULT,
+            style: $background ?? ActionStyle::DEFAULT,
             openInNewTab: $openInNewTab,
         );
 
@@ -155,13 +122,12 @@ class ResourceActionLinks extends Field
     /**
      * Add an "Edit" action link.
      *
-     * @param  ActionStyle|null  $background  The background style
      * @param  ActionIcon|null  $icon  The icon to use
      * @param  bool  $openInNewTab  Whether to open the link in a new tab
      * @return $this
      */
     public function addEdit(
-        ?ActionStyle $background = null,
+        ?ActionStyle $style = null,
         ?ActionIcon $icon = null,
         bool $openInNewTab = false,
     ): static {
@@ -169,74 +135,13 @@ class ResourceActionLinks extends Field
         $label = __('Edit').' '.$this->resourceSingular;
 
         $this->addLink(
-            type: ActionType::EDIT,
             label: $label,
             url: $url,
             icon: $icon ?? ActionIcon::EDIT,
-            background: $background ?? ActionStyle::DEFAULT,
+            style: $style ?? ActionStyle::DEFAULT,
             openInNewTab: $openInNewTab,
         );
 
         return $this;
-    }
-
-    /**
-     * Add a custom action link.
-     *
-     * @param  string  $label  Display label for the action
-     * @param  string  $url  The URL for the action (relative or absolute)
-     * @param  ActionIcon|null  $icon  The icon to use
-     * @param  ActionStyle|null  $background  The background style
-     * @param  bool  $openInNewTab  Whether to open the link in a new tab
-     * @return $this
-     */
-    public function addCustom(
-        string $label,
-        string $url,
-        ?ActionIcon $icon = null,
-        ?ActionStyle $background = null,
-        bool $openInNewTab = false,
-    ): static {
-        $this->addLink(
-            type: ActionType::CUSTOM,
-            label: $label,
-            url: $url,
-            icon: $icon ?? ActionIcon::LINK,
-            background: $background ?? ActionStyle::DEFAULT,
-            openInNewTab: $openInNewTab,
-        );
-
-        return $this;
-    }
-
-    /**
-     * Add a link to the collection.
-     */
-    private function addLink(
-        ActionType $type,
-        string $label,
-        string $url,
-        ?ActionIcon $icon = null,
-        ?ActionStyle $background = null,
-        bool $openInNewTab = false,
-    ): void {
-        $this->links[] = [
-            'type' => $type,
-            'url' => $url,
-            'label' => $label,
-            'icon' => $icon ?? ActionIcon::LINK,
-            'background' => $background ?? ActionStyle::DEFAULT,
-            'openInNewTab' => $openInNewTab,
-        ];
-    }
-
-    /**
-     * Prepare the field for JSON serialization.
-     */
-    public function jsonSerialize(): array
-    {
-        return array_merge(parent::jsonSerialize(), [
-            'links' => $this->links,
-        ]);
     }
 }
