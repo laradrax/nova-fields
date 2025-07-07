@@ -32,6 +32,11 @@ class ActionLinks extends Field
     public $component = 'action-links';
 
     /**
+     * The alignment of the action links.
+     */
+    private ActionAlign $align = ActionAlign::CENTER;
+
+    /**
      * @var list<Link> Collection of action links
      */
     private array $links = [];
@@ -47,6 +52,19 @@ class ActionLinks extends Field
         ?string $name = null,
     ) {
         parent::__construct($name ?? __('Actions'));
+    }
+
+    /**
+     * Set the alignment of the action links.
+     *
+     * @param  ActionAlign  $align  The alignment option for the action links
+     * @return static The field instance for method chaining
+     */
+    public function align(ActionAlign $align): self
+    {
+        $this->align = $align;
+
+        return $this;
     }
 
     /**
@@ -85,6 +103,7 @@ class ActionLinks extends Field
     public function jsonSerialize(): array
     {
         return array_merge(parent::jsonSerialize(), [
+            'align' => $this->align->value,
             'links' => $this->links,
         ]);
     }

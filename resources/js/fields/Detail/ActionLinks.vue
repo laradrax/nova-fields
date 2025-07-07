@@ -1,25 +1,29 @@
 <template>
-    <div class="flex items-center justify-center py-3">
-        <div v-if="Array.isArray(field.links) && field.links.length > 0" class="inline-flex justify-center gap-2 flex-wrap">
-            <a
-                v-for="(link, index) in field.links"
-                :key="`${field.attribute}-link-${index}`"
-                :href="link.url"
-                :class="getLinkClasses(link.style)"
-                :target="link.openInNewTab ? '_blank' : undefined"
-                :rel="link.openInNewTab ? 'noopener noreferrer' : undefined"
-            >
-                <span v-if="link.icon" v-html="link.icon" class="flex-shrink-0"></span>
-                <span>{{ link.label }}</span>
-            </a>
-        </div>
+    <div :class="containerClasses">
+        <template v-if="hasLinks">
+            <div :class="wrapperClasses">
+                <a
+                    v-for="(link, idx) in field.links"
+                    :key="`${field.attribute}-link-${idx}`"
+                    :href="link.url"
+                    :class="linkClasses(link.style)"
+                    :target="link.openInNewTab ? '_blank' : null"
+                    :rel="link.openInNewTab ? 'noopener noreferrer' : null"
+                >
+                    <span v-if="link.icon" v-html="link.icon" class="flex-shrink-0" />
+                    <span>{{ link.label }}</span>
+                </a>
+            </div>
+        </template>
         <span v-else class="text-gray-400 dark:text-gray-500 text-xs italic">
-            {{ __('No actions available') }}
+          {{ __('No actions available') }}
         </span>
     </div>
 </template>
 
 <script>
+const DEFAULT_LINK_CLASS = 'bg-gray-100 text-gray-600 ring-gray-500/10'
+
 /**
  * @typedef {Object} Link
  * @property {string} type
@@ -35,47 +39,52 @@
  * @property {string} attribute
  * @property {Link[]} links
  */
+
 export default {
     props: {
-        resourceName: {
-            type: String,
-            required: true,
-        },
-        /**
-         * @param {FieldData} field
-         */
+        resourceName: { type: String, required: true },
+        /** @type {FieldData} */
         field: {
             type: Object,
             required: true,
-            validator: (field) => {
-                return (
-                    typeof field === 'object' &&
-                    typeof field.attribute === 'string' &&
-                    Array.isArray(field.links)
-                );
-            },
+            validator: f =>
+                typeof f?.attribute === 'string' && Array.isArray(f?.links),
         },
     },
+
+    computed: {
+        hasLinks() {
+            return Array.isArray(this.field.links) && this.field.links.length > 0
+        },
+
+        alignClass() {
+            return this.field.align || 'justify-center'
+        },
+
+        containerClasses() {
+            return ['flex', 'items-center', this.alignClass, 'py-3']
+        },
+
+        wrapperClasses() {
+            return ['inline-flex', this.alignClass, 'gap-2', 'flex-wrap']
+        },
+    },
+
     methods: {
         /**
          * @param {string} style
-         * @returns {string}
+         * @returns {Array<string>}
          */
-        getLinkClasses(style) {
-            const linkClass = typeof style === 'string'
-                ? style
-                : 'bg-gray-100 text-gray-600 ring-gray-500/10';
+        linkClasses(style) {
             return [
-                'inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset',
-                linkClass,
-                'no-underline',
+                'inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset no-underline',
+                style || DEFAULT_LINK_CLASS,
             ]
-                .filter(Boolean)
-                .join(' ')
         },
     },
-};
+}
 </script>
+
 <style scoped>
 a:not(:disabled):hover {
     opacity: 0.8;
