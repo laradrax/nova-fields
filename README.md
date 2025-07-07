@@ -160,26 +160,26 @@ The `ActionIcon` enum provides a wide range of SVG icons:
 
 ```php
 ActionIcon::AI         // Artificial Intelligence
-ActionIcon::VIEW       // View
-ActionIcon::EDIT       // Edit
-ActionIcon::CREATE     // Create
-ActionIcon::DELETE     // Delete
-ActionIcon::USER       // User
-ActionIcon::SETTINGS   // Settings
-ActionIcon::RELOAD     // Reload
-ActionIcon::FILTER     // Filter
-ActionIcon::DOWNLOAD   // Download
-ActionIcon::CHART      // Chart
-ActionIcon::SHOPPING_CART // Shopping Cart
-ActionIcon::MAP_PIN    // Location
-ActionIcon::SEARCH     // Search
-ActionIcon::LINK       // Link
 ActionIcon::BEAKER     // Laboratory
 ActionIcon::CALENDAR   // Calendar
 ActionIcon::CALL       // Call
+ActionIcon::CHART      // Chart
 ActionIcon::CODE       // Code
+ActionIcon::CREATE     // Create
 ActionIcon::DATABASE   // Database
+ActionIcon::DELETE     // Delete
+ActionIcon::DOWNLOAD   // Download
+ActionIcon::EDIT       // Edit
+ActionIcon::FILTER     // Filter
 ActionIcon::GLOBE      // Globe
+ActionIcon::LINK       // Link
+ActionIcon::MAP_PIN    // Location
+ActionIcon::RELOAD     // Reload
+ActionIcon::SEARCH     // Search
+ActionIcon::SETTINGS   // Settings
+ActionIcon::SHOPPING_CART // Shopping Cart
+ActionIcon::USER       // User
+ActionIcon::VIEW       // View
 ```
 
 ## Available Styles
