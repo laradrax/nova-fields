@@ -91,7 +91,7 @@ Field that displays customizable action links with icons and styles.
 ```php
 use Laradrax\Nova\Fields\ActionLinks;
 use Laradrax\Nova\Fields\ActionIcon;
-use Laradrax\Nova\Fields\ActionStyle;
+use Laradrax\Nova\Fields\ActionColor;
 use Laradrax\Nova\Fields\ActionAlign;
 
 ActionLinks::make('Actions')
@@ -99,14 +99,14 @@ ActionLinks::make('Actions')
         label: 'View Details',
         url: '/custom-view/' . $this->id,
         icon: ActionIcon::VIEW,
-        style: ActionStyle::INFO,
+        color: ActionColor::INFO,
         openInNewTab: true
     )
     ->addLink(
         label: 'Download PDF',
         url: '/download/' . $this->id,
         icon: ActionIcon::DOWNLOAD,
-        style: ActionStyle::SUCCESS
+        color: ActionColor::SUCCESS
     )
     ->align(ActionAlign::RIGHT),
 ```
@@ -134,8 +134,8 @@ ResourceActionLinks::make(User::class, $this->user_id)
 
 // Add specific actions
 ResourceActionLinks::make(User::class, $this->user_id)
-    ->addView(ActionStyle::INFO, ActionIcon::VIEW, true)
-    ->addEdit(ActionStyle::WARNING, ActionIcon::EDIT),
+    ->addView(ActionIcon::VIEW, ActionColor::INFO, true)
+    ->addEdit(ActionIcon::EDIT, ActionColor::WARNING),
 
 // Customize field name
 ResourceActionLinks::make(User::class, $this->user_id, 'User Actions')
@@ -150,8 +150,8 @@ ResourceActionLinks::make(User::class, $this->user_id, 'User Actions')
 ->addAll()
 
 // Standard Nova resource actions
-->addView(?ActionStyle $style, ?ActionIcon $icon, bool $openInNewTab = false)
-->addEdit(?ActionStyle $style, ?ActionIcon $icon, bool $openInNewTab = false)
+->addView(?ActionIcon $icon, ?ActionColor $color, bool $openInNewTab = false)
+->addEdit(?ActionIcon $icon, ?ActionColor $color, bool $openInNewTab = false)
 ```
 
 ## Available Icons
@@ -184,14 +184,14 @@ ActionIcon::VIEW       // View
 
 ## Available Styles
 
-The `ActionStyle` enum provides Tailwind CSS-based styles:
+The `ActionColor` enum provides Tailwind CSS-based styles:
 
 ```php
-ActionStyle::DEFAULT   // Gray
-ActionStyle::SUCCESS   // Green
-ActionStyle::WARNING   // Yellow
-ActionStyle::DANGER    // Red
-ActionStyle::INFO      // Blue
+ActionColor::DEFAULT   // Gray
+ActionColor::SUCCESS   // Green
+ActionColor::WARNING   // Yellow
+ActionColor::DANGER    // Red
+ActionColor::INFO      // Blue
 ```
 
 ## Available Alignments
@@ -239,7 +239,7 @@ public function fields(Request $request)
 ```php
 use Laradrax\Nova\Fields\ActionLinks;
 use Laradrax\Nova\Fields\ActionIcon;
-use Laradrax\Nova\Fields\ActionStyle;
+use Laradrax\Nova\Fields\ActionColor;
 
 public function fields(Request $request)
 {
@@ -253,13 +253,13 @@ public function fields(Request $request)
                 label: 'View Profile',
                 url: '/profile/' . $this->id,
                 icon: ActionIcon::USER,
-                style: ActionStyle::INFO
+                color: ActionColor::INFO
             )
             ->addLink(
                 label: 'Report',
                 url: '/reports/' . $this->id,
                 icon: ActionIcon::CHART,
-                style: ActionStyle::SUCCESS,
+                color: ActionColor::SUCCESS,
                 openInNewTab: true
             )
             ->onlyOnIndex(),
@@ -303,8 +303,8 @@ public function fields(Request $request)
         Text::make('Name'),
         
         ResourceActionLinks::make(Product::class, $this->id, 'Product Actions')
-            ->addView(ActionStyle::INFO, ActionIcon::VIEW, true)
-            ->addEdit(ActionStyle::WARNING, ActionIcon::EDIT)
+            ->addView(ActionColor::INFO, ActionIcon::VIEW, true)
+            ->addEdit(ActionColor::WARNING, ActionIcon::EDIT)
             ->onlyOnIndex(),
     ];
 }

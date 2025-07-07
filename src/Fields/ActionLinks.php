@@ -6,7 +6,7 @@ use InvalidArgumentException;
 use Laravel\Nova\Fields\Field;
 
 /**
- * Badge-style action links for Nova Resources with enhanced functionality.
+ * Action links for Nova Resources with enhanced functionality.
  *
  * This field creates customizable action badges with icons and styling options.
  * Perfect for adding quick action buttons to your Nova resources with consistent
@@ -18,7 +18,7 @@ use Laravel\Nova\Fields\Field;
  *     url: string,
  *     label: string,
  *     icon: ActionIcon,
- *     style: ActionStyle,
+ *     color: ActionColor,
  *     openInNewTab: bool
  * }
  */
@@ -73,7 +73,7 @@ class ActionLinks extends Field
      * @param  string  $label  The display text for the link
      * @param  string  $url  The URL the link should navigate to
      * @param  ActionIcon|null  $icon  The icon to display (defaults to LINK icon)
-     * @param  ActionStyle|null  $style  The styling for the link (defaults to DEFAULT style)
+     * @param  ActionColor|null  $color  The styling for the link (defaults to DEFAULT color)
      * @param  bool  $openInNewTab  Whether to open the link in a new tab
      * @return static The field instance for method chaining
      */
@@ -81,14 +81,14 @@ class ActionLinks extends Field
         string $label,
         string $url,
         ?ActionIcon $icon = null,
-        ?ActionStyle $style = null,
+        ?ActionColor $color = null,
         bool $openInNewTab = false,
     ): static {
         $this->links[] = [
             'url' => $url,
             'label' => $label,
             'icon' => $icon ?? ActionIcon::LINK,
-            'style' => $style ?? ActionStyle::DEFAULT,
+            'color' => $color ?? ActionColor::DEFAULT,
             'openInNewTab' => $openInNewTab,
         ];
 

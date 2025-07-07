@@ -8,7 +8,7 @@ namespace Laradrax\Nova\Fields;
  * Provides predefined styling options for action links using Tailwind CSS classes.
  * These styles ensure consistency with Laravel Nova's design system.
  */
-enum ActionStyle: string
+enum ActionColor: string
 {
     case DANGER = 'bg-red-50 text-red-700 ring-red-600/10';
     case WARNING = 'bg-yellow-100 text-yellow-800 ring-yellow-600/20';

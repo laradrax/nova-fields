@@ -3,12 +3,11 @@
 namespace Laradrax\Nova\Fields;
 
 use InvalidArgumentException;
-use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Resource as NovaResource;
 
 /**
- * Badge-style action links for Nova Resources with enhanced functionality.
+ * Action links for Nova Resources with enhanced functionality.
  *
  * This field creates customizable action badges (view, edit, etc.) for related resources,
  * providing a clean and intuitive way to navigate between connected resources.
@@ -21,7 +20,7 @@ use Laravel\Nova\Resource as NovaResource;
  *     url: string,
  *     label: string,
  *     icon: ActionIcon,
- *     background: ActionStyle,
+ *     color: ActionColor,
  *     openInNewTab: bool
  * }
  */
@@ -98,14 +97,14 @@ class ResourceActionLinks extends ActionLinks
     /**
      * Add a "View" action link.
      *
-     * @param  ActionStyle|null  $style  The styling for the link
      * @param  ActionIcon|null  $icon  The icon to use
+     * @param  ActionColor|null  $color  The styling for the link
      * @param  bool  $openInNewTab  Whether to open the link in a new tab
      * @return static The field instance for method chaining
      */
     public function addView(
-        ?ActionStyle $style = null,
         ?ActionIcon $icon = null,
+        ?ActionColor $color = null,
         bool $openInNewTab = false,
     ): static {
         if ($this->resourceKey === null) {
@@ -119,7 +118,7 @@ class ResourceActionLinks extends ActionLinks
             label: $label,
             url: $url,
             icon: $icon ?? ActionIcon::VIEW,
-            style: $style ?? ActionStyle::DEFAULT,
+            color: $color ?? ActionColor::DEFAULT,
             openInNewTab: $openInNewTab,
         );
 
@@ -129,14 +128,14 @@ class ResourceActionLinks extends ActionLinks
     /**
      * Add an "Edit" action link.
      *
-     * @param  ActionStyle|null  $style  The styling for the link
      * @param  ActionIcon|null  $icon  The icon to use
+     * @param  ActionColor|null  $color  The styling for the link
      * @param  bool  $openInNewTab  Whether to open the link in a new tab
      * @return static The field instance for method chaining
      */
     public function addEdit(
-        ?ActionStyle $style = null,
         ?ActionIcon $icon = null,
+        ?ActionColor $color = null,
         bool $openInNewTab = false,
     ): static {
         if ($this->resourceKey === null) {
@@ -150,7 +149,7 @@ class ResourceActionLinks extends ActionLinks
             label: $label,
             url: $url,
             icon: $icon ?? ActionIcon::EDIT,
-            style: $style ?? ActionStyle::DEFAULT,
+            color: $color ?? ActionColor::DEFAULT,
             openInNewTab: $openInNewTab,
         );
 

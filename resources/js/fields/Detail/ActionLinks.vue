@@ -6,11 +6,11 @@
                     v-for="(link, idx) in field.links"
                     :key="`${field.attribute}-link-${idx}`"
                     :href="link.url"
-                    :class="linkClasses(link.style)"
+                    :class="linkClasses(link.color)"
                     :target="link.openInNewTab ? '_blank' : null"
                     :rel="link.openInNewTab ? 'noopener noreferrer' : null"
                 >
-                    <span v-if="link.icon" v-html="link.icon" class="flex-shrink-0" />
+                    <span v-if="link.icon" v-html="link.icon" class="flex-shrink-0"/>
                     <span>{{ link.label }}</span>
                 </a>
             </div>
@@ -30,7 +30,7 @@ const DEFAULT_LINK_CLASS = 'bg-gray-100 text-gray-600 ring-gray-500/10'
  * @property {string} url
  * @property {string} label
  * @property {string} [icon]
- * @property {string} [style]
+ * @property {string} [color]
  * @property {boolean} openInNewTab
  */
 
@@ -42,7 +42,7 @@ const DEFAULT_LINK_CLASS = 'bg-gray-100 text-gray-600 ring-gray-500/10'
 
 export default {
     props: {
-        resourceName: { type: String, required: true },
+        resourceName: {type: String, required: true},
         /** @type {FieldData} */
         field: {
             type: Object,
@@ -72,13 +72,13 @@ export default {
 
     methods: {
         /**
-         * @param {string} style
+         * @param {string} color
          * @returns {Array<string>}
          */
-        linkClasses(style) {
+        linkClasses(color) {
             return [
                 'inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset no-underline',
-                style || DEFAULT_LINK_CLASS,
+                color || DEFAULT_LINK_CLASS,
             ]
         },
     },
