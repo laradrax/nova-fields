@@ -10,7 +10,7 @@ namespace Laradrax\Nova\Fields;
  */
 enum ActionAlign: string
 {
-    case RIGHT = 'justify-start';
+    case LEFT = 'justify-start';
     case CENTER = 'justify-center';
-    case LEFT = 'justify-end';
+    case RIGHT = 'justify-end';
 }
