@@ -84,6 +84,7 @@ Field that displays customizable action links with icons and styles.
 - ✅ Predefined styles (colors)
 - ✅ Open in new tab
 - ✅ Customizable URLs
+- ✅ Alignment options (left, center, right)
 
 #### Basic Usage
 
@@ -91,6 +92,7 @@ Field that displays customizable action links with icons and styles.
 use Laradrax\Nova\Fields\ActionLinks;
 use Laradrax\Nova\Fields\ActionIcon;
 use Laradrax\Nova\Fields\ActionStyle;
+use Laradrax\Nova\Fields\ActionAlign;
 
 ActionLinks::make('Actions')
     ->addLink(
@@ -105,7 +107,8 @@ ActionLinks::make('Actions')
         url: '/download/' . $this->id,
         icon: ActionIcon::DOWNLOAD,
         style: ActionStyle::SUCCESS
-    ),
+    )
+    ->align(ActionAlign::RIGHT),
 ```
 
 ### 3. ResourceActionLinks
@@ -156,11 +159,15 @@ ResourceActionLinks::make(User::class, $this->user_id, 'User Actions')
 The `ActionIcon` enum provides a wide range of SVG icons:
 
 ```php
+ActionIcon::AI         // Artificial Intelligence
 ActionIcon::VIEW       // View
 ActionIcon::EDIT       // Edit
+ActionIcon::CREATE     // Create
 ActionIcon::DELETE     // Delete
 ActionIcon::USER       // User
 ActionIcon::SETTINGS   // Settings
+ActionIcon::RELOAD     // Reload
+ActionIcon::FILTER     // Filter
 ActionIcon::DOWNLOAD   // Download
 ActionIcon::CHART      // Chart
 ActionIcon::SHOPPING_CART // Shopping Cart
@@ -173,7 +180,6 @@ ActionIcon::CALL       // Call
 ActionIcon::CODE       // Code
 ActionIcon::DATABASE   // Database
 ActionIcon::GLOBE      // Globe
-ActionIcon::AI         // Artificial Intelligence
 ```
 
 ## Available Styles
@@ -186,6 +192,16 @@ ActionStyle::SUCCESS   // Green
 ActionStyle::WARNING   // Yellow
 ActionStyle::DANGER    // Red
 ActionStyle::INFO      // Blue
+```
+
+## Available Alignments
+
+The `ActionAlign` enum provides alignment options for action links:
+
+```php
+ActionAlign::LEFT      // Left aligned
+ActionAlign::CENTER    // Center aligned (default)
+ActionAlign::RIGHT     // Right aligned
 ```
 
 ## Practical Examples
