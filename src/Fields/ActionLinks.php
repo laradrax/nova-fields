@@ -12,7 +12,7 @@ use Laravel\Nova\Fields\Field;
  * Perfect for adding quick action buttons to your Nova resources with consistent
  * design and behavior.
  *
- * @method static static make(string|null $name)
+ * @method static static make(string|null $name = null)
  *
  * @phpstan-type Link array{
  *     url: string,
