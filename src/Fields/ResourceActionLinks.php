@@ -108,6 +108,10 @@ class ResourceActionLinks extends ActionLinks
         ?ActionIcon $icon = null,
         bool $openInNewTab = false,
     ): static {
+        if ($this->resourceKey === null) {
+            return $this;
+        }
+
         $url = Nova::url("{$this->resourceBasePath}/{$this->resourceKey}");
         $label = __('View').' '.$this->resourceSingular;
 
@@ -135,6 +139,10 @@ class ResourceActionLinks extends ActionLinks
         ?ActionIcon $icon = null,
         bool $openInNewTab = false,
     ): static {
+        if ($this->resourceKey === null) {
+            return $this;
+        }
+
         $url = Nova::url("{$this->resourceBasePath}/{$this->resourceKey}/edit");
         $label = __('Edit').' '.$this->resourceSingular;
 
