@@ -16,7 +16,7 @@
             </div>
         </template>
         <span v-else class="text-gray-400 dark:text-gray-500 text-xs italic">
-          {{ __('No actions available') }}
+          {{ noActionText }}
         </span>
     </div>
 </template>
@@ -53,6 +53,12 @@ export default {
     },
 
     computed: {
+        noActionText() {
+            return this.__('No :attribute available', {
+                attribute: this.field.name,
+            });
+        },
+
         hasLinks() {
             return Array.isArray(this.field.links) && this.field.links.length > 0
         },

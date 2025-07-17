@@ -1,5 +1,5 @@
 {
-    "No actions available": "Nenhuma ação disponível",
+    "No :attribute available": ":attribute não disponível",
     "The :attribute field is incomplete": "O campo :attribute está incompleto",
     "Cancel": "Cancelar",
     "Create": "Criar",
